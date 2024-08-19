@@ -68,7 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
           Expanded(
-            flex: 2,
+            flex: 2, 
             child: Container(
               // Row에 배경색을 주고 싶다면 Container로 감싼 후 지정
               color: Colors.cyan,
