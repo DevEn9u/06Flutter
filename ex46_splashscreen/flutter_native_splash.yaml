@@ -1,0 +1,15 @@
+flutter_native_splash:
+
+  background_image: "assets/images/intro.png"
+  #background_image_dark: "assets/dark-background.png"
+
+  #android: false
+  #ios: false
+  #web: false
+
+  #fullscreen: true
+  
+  # To enable support for Android 12, set the following parameter to true.  Defaults to false.
+  #android12: true
+  android_12:
+    image: assets/images/intro2.png
