@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script>
+      // Flutter에서 호출할 JavaScript 함수
+      function appToJs(msg) {
+        alert(msg);
+      }
+      // Html에서 Flutter로 message 전송
+      function jsToApp() {
+        // 222라는 인수를 전달한다.
+        JsFlutter.postMessage(222);
+      }
+    </script>
+  </head>
+  <body>
+    <h1>홍길동</h1>
+    <button type="button" onclick="jsToApp()">Flutter 메서드 호출</button>
+  </body>
+</html>
