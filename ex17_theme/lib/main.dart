@@ -11,7 +11,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      // theme: ThemeData.dark(),
       theme: ThemeData(
         // 24년 현재 사용되고 있는 테마(기본형에 저장)
         // colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
@@ -19,18 +18,18 @@ class MyApp extends StatelessWidget {
 
         // App bar와 전반적인 컬러로 테마 구성(구 버전 default)
         // primarySwatch: Colors.blue,
-        primarySwatch: Colors.orange,
 
         // App bar의 theme 설정
-        // appBarTheme: const AppBarTheme(
-        //   color: Colors.deepPurple,
-        // ),
+        appBarTheme: const AppBarTheme(
+          color: Colors.deepPurple,
+        ),
 
         // 선택되지 않은 위젯 color
         unselectedWidgetColor: Colors.green,
         // scaffold 배경 color
-        scaffoldBackgroundColor: const Color.fromARGB(255, 255, 235, 231),
+        scaffoldBackgroundColor: const Color.fromARGB(255, 255, 234, 230),
 
+        // 폰트 적용
         fontFamily: 'D2Coding',
 
         // 기본 텍스트 테마 설정
@@ -62,9 +61,9 @@ enum Fruit { apple, banana }
 
 class _MyHomePageState extends State<MyHomePage> {
   // 멤버변수 선언
-  Fruit _myGroup = Fruit.banana;
+  String? _selectedRadio;
   bool _chk1 = false;
-  bool _chk2 = false;
+  bool _chk2 = true;
 
   @override
   Widget build(BuildContext context) {
@@ -77,104 +76,145 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const Text(
-              'default theme 적용된 글자',
+              'Default Theme 적용된 글자',
             ),
             TextButton(
-              onPressed: 1 != 2 ? null : () => print('aaa'),
-              child: const Text('TextButton 0'),
+              onPressed: () {
+                print('aaa');
+              },
+              child: const Text('TextButton'),
             ),
             ElevatedButton(
               onPressed: () {
                 print('bbb');
               },
-              child: const Text('default theme - button 0',
+              child: const Text('ElevatedButton(Default)',
                   style: TextStyle(fontSize: 24)),
             ),
             ElevatedButton(
               onPressed: () {
                 print('ccc');
               },
-              child: const Text('글자색 변경 - button 0',
+              child: const Text('ElevatedButton(테마 변경)',
                   style: TextStyle(fontSize: 24, color: Colors.white)),
               style: ElevatedButton.styleFrom(
                 // 아래 2개의 속성은 deprecated.
                 // primary: Colors.green,
                 // onPrimary: Colors.white,
-                foregroundColor: Colors.green,
-                backgroundColor: Colors.white,
-                shadowColor: Colors.red,
-                elevation: 5,
+                foregroundColor: Colors.indigo,
+                backgroundColor: Colors.green,
+                shadowColor: Colors.purple,
+                textStyle:
+                    const TextStyle(fontSize: 10, fontStyle: FontStyle.italic),
+                elevation: 10,
                 side: const BorderSide(color: Colors.red, width: 1),
                 shape: const BeveledRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(5)),
                 ),
               ),
             ),
-            RadioListTile<Fruit>(
-              title: const Text('사과'),
-              value: Fruit.apple,
-              groupValue: _myGroup,
-              onChanged: (Fruit? value) {
-                setState(() {
-                  _myGroup = value!;
-                  print(_myGroup);
-                });
-              },
-            ),
-            Theme(
-              data: Theme.of(context).copyWith(
-                unselectedWidgetColor: Colors.indigo,
-              ),
-              child: RadioListTile<Fruit>(
-                title: const Text('바나나'),
-                value: Fruit.banana,
-                groupValue: _myGroup,
-                activeColor: Colors.pink,
-                onChanged: (value) {
-                  setState(() {
-                    _myGroup = value!;
-                    print(_myGroup);
-                  });
-                },
-              ),
-            ),
-            Checkbox(
-              value: _chk1,
-              checkColor: Colors.pink,
-              activeColor: Colors.green,
+            RadioListTile<String>(
+              title: const Text('Defalut Theme 적용'),
+              value: 'Default theme Radio',
+              groupValue: _selectedRadio,
               onChanged: (value) {
                 setState(() {
-                  _chk1 = value!;
+                  _selectedRadio = value;
+                  print('$value 선택됨');
                 });
               },
             ),
             Theme(
               data: Theme.of(context).copyWith(
-                unselectedWidgetColor: Colors.indigo,
+                textTheme: TextTheme(
+                  bodyMedium: TextStyle(
+                    color: Colors.blue,
+                    fontSize: 15,
+                  ),
+                ),
+                radioTheme: RadioThemeData(
+                  fillColor: MaterialStateProperty.all(Colors.pink),
+                ),
               ),
-              child: Checkbox(
-                value: _chk2,
-                checkColor: Colors.pink,
-                activeColor: Colors.green,
+              child: RadioListTile<String>(
+                title: const Text('Radio Theme 적용'),
+                value: 'Theme 변경 Radio',
+                groupValue: _selectedRadio,
                 onChanged: (value) {
                   setState(() {
-                    _chk2 = value!;
+                    _selectedRadio = value!;
+                    print('$value 선택됨');
                   });
                 },
               ),
             ),
-            const TextField(),
+            Row(
+              children: [
+                Checkbox(
+                  value: _chk1,
+                  checkColor: Colors.pink,
+                  activeColor: Colors.green,
+                  onChanged: (value) {
+                    setState(() {
+                      _chk1 = value!;
+                      _chk2 ? print('chk1 checked') : print('chk1 unchecked');
+                    });
+                  },
+                ),
+                const Text('Defalut Theme 적용')
+              ],
+            ),
+            Theme(
+              data: Theme.of(context).copyWith(
+                checkboxTheme: CheckboxThemeData(
+                  fillColor: MaterialStateProperty.resolveWith<Color>((states) {
+                    if (states.contains(MaterialState.selected)) {
+                      return Colors.blueAccent;
+                    }
+                    return Colors.red;
+                  }),
+                  checkColor: MaterialStateProperty.all(Colors.amber),
+                ),
+              ),
+              child: Row(
+                children: [
+                  Checkbox(
+                    value: _chk2,
+                    onChanged: (value) {
+                      setState(
+                        () {
+                          _chk2 = value!;
+                          _chk2
+                              ? print('chk2 checked')
+                              : print('chk2 unchecked');
+                        },
+                      );
+                    },
+                  ),
+                  const Text('Checkbox Theme 적용'),
+                ],
+              ),
+            ),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        icon: const Icon(Icons.thumb_up),
-        label: const Text("Approve"),
-        tooltip: 'Increment',
-        backgroundColor: Colors.purple,
-        onPressed: () {
-          print('ddd');
-        },
+      floatingActionButton: Theme(
+        data: ThemeData(
+          floatingActionButtonTheme: FloatingActionButtonThemeData(
+            backgroundColor: Colors.pink,
+            foregroundColor: Colors.white,
+            splashColor: Colors.purple,
+            elevation: 10.0,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
+            ),
+          ),
+        ),
+        child: FloatingActionButton(
+          child: const Icon(Icons.thumb_up),
+          tooltip: '좋아요',
+          onPressed: () => (print('ddd')),
+        ),
       ),
       // floatingActionButton: Theme(
       //   data: ThemeData(

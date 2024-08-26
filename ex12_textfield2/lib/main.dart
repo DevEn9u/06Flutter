@@ -41,15 +41,23 @@ class _MyHomePageState extends State<MyHomePage> {
               '내용을 입력하세요',
               style: TextStyle(fontSize: 30.0),
             ),
-            /* TextField를 멀티라인으로 지정하는 경우 화면 사이즈를 넘어가서 재대로 표현되지 않는 경우가 생길 때 Expanded로
-            감싸준다. VSCode에서는 Ctrl + . , Android Stuido에서는
-            Alt + Enter를 사용한다. */
+            /* TextField를 멀티라인으로 지정하는 경우 화면 사이즈를 넘어가서
+            재대로 표현되지 않는 경우가 생길 때 Expanded로 감싸준다.
+            VSCode에서는 Ctrl + . ,
+            Android Stuido에서는 Alt + Enter를 사용한다. */
             Expanded(
               child: TextField(
                 // 입력할 문자열의 최대 길이 지정
-                maxLength: 10,
-                // 입력라인을 최대  30줄로 지정
-                maxLines: 30,
+                maxLength: 1000,
+                /*
+                  정수를 입력하면 지정된 만큼의 높이가 부여된다.
+                  즉 '5'라면 5줄의 입력공간이 확보된다.
+                  이 경우 5줄만 입력할 수 있는 것은 아니다.
+                  엔터키를 통해 5줄 이상이 되면 자동으로 스크롤바가 생성된다.
+                  'null'을 부여하면 줄바꿈이 있을 때마다 동적으로
+                  높이가 조절된다.
+                 */
+                maxLines: null,
                 decoration: const InputDecoration(
                   focusedBorder: OutlineInputBorder(
                     borderSide:
@@ -69,7 +77,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 onChanged: (text) {
                   print(text);
                 },
-                // 해당 예제에는 멀티라인 구조이고 submit 할 버튼이 없어 의미 없는 이벤트이긴 하다.
+                /*
+                 maxLines를 2 이상 지정하면 Enter키를 눌렀을 때 줄바꿈이
+                 발생하므로 submit 이벤트는 사용할 수 없다. change 이벤트를 통해
+                 업무를 처리해야 한다.
+                */
                 onSubmitted: (text) {
                   print('Submitted : $text');
                 },

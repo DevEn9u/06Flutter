@@ -1,15 +1,17 @@
+# Native Splash 화면을 설정하기 위해 사용
 flutter_native_splash:
-
-  background_image: "assets/images/intro.png"
+  # 배경이미지. 안드로이드 12미만에서 적용됨.
+  background_image: 'assets/images/intro.png'
+  # 배경색 안드로이드 12에서 지정하면 무시됨. 우선순위 낮음
   #background_image_dark: "assets/dark-background.png"
+  color: '#00FF00' # green
 
-  #android: false
-  #ios: false
-  #web: false
+  # 안드로이드11(R) 까지는 상단 적용
 
-  #fullscreen: true
-  
-  # To enable support for Android 12, set the following parameter to true.  Defaults to false.
-  #android12: true
+  # 안드로이드12(S) 부터는 하단 적용
   android_12:
-    image: assets/images/intro2.png
+    # image: assets/images/intro2.png
+    image: assets/images/android12splash.png
+    color: '#FFFFFF'
+    # 화면 하단에 표시되는 이미지
+    branding: assets/images/dart.png
